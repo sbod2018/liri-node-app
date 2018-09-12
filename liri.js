@@ -6,6 +6,7 @@ let Spotify = require("node-spotify-api");
 let request = require("request");
 let moment = require("moment");
 let spotify = new Spotify(keys.spotify);
+let fs = require("fs");
 
 // let omdb = new Omdb(key)
 
@@ -24,7 +25,7 @@ const spotifyThis = function (songTitle) {
             return console.log('Error occurred: ' + err);
         }
 
-        console.log(JSON.stringify(data, null, 2));
+        //console.log(JSON.stringify(data, null, 2));
         console.log(
             `\nArtist: ${data.tracks.items[0].artists[0].name}\nAlbum: ${data.tracks.items[0].album.name}\nSong Name: ${songTitle}\n 
           Spotify Link: ${data.tracks.items[0].album.artists[0].external_urls.spotify}\n`);
@@ -116,6 +117,17 @@ let concertThis = function (artist) {
     });
 
 }
+
+let doWhatItSays = function(){
+    fs.readFile('random.txt', 'utf8', function(err,data){
+        if (err){
+            return console.log(err);
+        }
+        data = data.split(",");
+        spotifyThis(data[1]);
+        console.log(data[1]);
+        })
+};
 
 
 commandSwitch(command, userSearch);
